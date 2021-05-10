@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Field, Form, Formik } from 'formik'
+import { ErrorMessage, Field, Form, Formik } from 'formik'
 import Head from 'next/head'
 import { useState } from 'react'
 import * as yup from 'yup'
@@ -59,45 +59,51 @@ export default function Home() {
                   .matches(
                     /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
                     'Enter correct url!'
-                  ),
+                  )
+                  .required('Please, Provide a url'),
               })}
             >
               {(formik) => (
-                <Form className="flex flex-col items-center gap-1 md:flex-row">
-                  <label htmlFor="url" className="sr-only">
-                    Url
-                  </label>
-                  <Field
-                    type="text"
-                    name="url"
-                    id="url"
-                    className="w-full h-10 px-4 border-2 border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 "
-                    placeholder="Shorten your link"
-                  />
-                  {status === 'success' ? (
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        const input = document.getElementById(
-                          'url'
-                        ) as HTMLInputElement
-                        input.select()
-                        document.execCommand('copy')
-                        console.log('copied!')
-                      }}
-                    >
-                      Copy
-                    </Button>
-                  ) : (
-                    <Button
-                      type="submit"
-                      isLoading={formik.isSubmitting}
-                      className="w-full md:w-auto"
-                      loadingText="Shortening..."
-                    >
-                      Shorten
-                    </Button>
-                  )}
+                <Form className="">
+                  <div className="flex flex-col items-center gap-1 md:flex-row">
+                    <label htmlFor="url" className="sr-only">
+                      Url
+                    </label>
+                    <Field
+                      type="text"
+                      name="url"
+                      id="url"
+                      className="w-full h-10 px-4 border-2 border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 "
+                      placeholder="Shorten your link"
+                    />
+                    {status === 'success' ? (
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          const input = document.getElementById(
+                            'url'
+                          ) as HTMLInputElement
+                          input.select()
+                          document.execCommand('copy')
+                          console.log('copied!')
+                        }}
+                      >
+                        Copy
+                      </Button>
+                    ) : (
+                      <Button
+                        type="submit"
+                        isLoading={formik.isSubmitting}
+                        className="w-full md:w-auto"
+                        loadingText="Shortening..."
+                      >
+                        Shorten
+                      </Button>
+                    )}
+                  </div>
+                  <ErrorMessage name="url">
+                    {(msg) => <p className="text-sm text-red-600">{msg}</p>}
+                  </ErrorMessage>
                 </Form>
               )}
             </Formik>
