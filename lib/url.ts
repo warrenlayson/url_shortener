@@ -1,4 +1,8 @@
+import { isServer } from './isServer'
+
 export const getUrl = () =>
   process.env.NODE_ENV === 'production'
-    ? process.env.VERCEL_URL
+    ? isServer()
+      ? process.env.VERCEL_URL
+      : process.env.NEXT_PUBLIC_VERCEL_URL
     : 'localhost:3000'
