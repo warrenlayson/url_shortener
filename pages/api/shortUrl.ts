@@ -18,7 +18,7 @@ const handler: NextApiHandler = async (req, res) => {
 
         if (error) throw error.details[0].message
 
-        const short = nanoid.nanoid(5)
+        const short = nanoid.nanoid(7)
 
         const existing = await ShortUrl.findOne({ short })
 
