@@ -6,5 +6,6 @@ export async function dbConnect() {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: true,
+    useCreateIndex: true,
   })
 }

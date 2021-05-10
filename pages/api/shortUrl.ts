@@ -2,7 +2,6 @@ import Joi from 'joi'
 import nanoid from 'nanoid'
 import { NextApiHandler } from 'next'
 import { dbConnect } from '../../lib/db'
-import { getUrl } from '../../lib/url'
 import ShortUrl from '../../models/ShortUrl'
 
 const schema = Joi.object({
@@ -28,7 +27,7 @@ const handler: NextApiHandler = async (req, res) => {
         short.toLowerCase()
         const newShortUrl = { full: body.url, short }
         await ShortUrl.create(newShortUrl)
-        const data = `${getUrl()}/${short}`
+        const data = `${req.headers.host}/${short}`
         res.status(201).json({ success: true, data })
       } catch (e) {
         let error = e
