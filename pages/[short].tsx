@@ -1,17 +1,17 @@
 import { GetServerSideProps } from 'next'
-import { dbConnect } from '../../middleware/db'
-import ShortUrl from '../../models/shortUrl'
+import { dbConnect } from '../lib/db'
+import ShortUrl from '../models/ShortUrl'
 
-const Url = () => {
-  return <div></div>
+export default function Short() {
+  return null
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await dbConnect()
 
   if (ctx.params) {
-    const url = ctx.params.url as string
-    const res = await ShortUrl.findOne({ short: url })
+    const short = ctx.params.short as string
+    const res = await ShortUrl.findOne({ short })
 
     if (!res) {
       return {
@@ -34,5 +34,3 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     props: {},
   }
 }
-
-export default Url

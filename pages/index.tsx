@@ -1,11 +1,9 @@
 import axios from 'axios'
-import { ErrorMessage, Field, Form, Formik } from 'formik'
+import { Field, Form, Formik } from 'formik'
 import Head from 'next/head'
 import { useState } from 'react'
-import * as yup from 'yup'
 import { Button } from '../components/Button'
 import { Wrapper } from '../components/Wrapper'
-import { getUrl } from '../lib/url'
 
 interface FormValues {
   url: string
@@ -45,23 +43,13 @@ export default function Home() {
                   }
 
                   setStatus('success')
-                  const url = getUrl() + `/r/${shortUrl}`
-                  actions.setFieldValue('url', url)
+                  actions.setFieldValue('url', shortUrl)
                 } catch (err) {
                   setStatus('error')
                 }
 
                 actions.setSubmitting(false)
               }}
-              validationSchema={yup.object({
-                url: yup
-                  .string()
-                  .matches(
-                    /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-                    'Enter correct url!'
-                  )
-                  .required('Please, Provide a url'),
-              })}
             >
               {(formik) => (
                 <Form className="">
@@ -101,9 +89,6 @@ export default function Home() {
                       </Button>
                     )}
                   </div>
-                  <ErrorMessage name="url">
-                    {(msg) => <p className="text-sm text-red-600">{msg}</p>}
-                  </ErrorMessage>
                 </Form>
               )}
             </Formik>

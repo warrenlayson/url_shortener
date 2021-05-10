@@ -1,5 +1,4 @@
 import { Document, Model, model, models, Schema } from 'mongoose'
-import shortId from 'shortid'
 
 export interface ShortUrl {
   full: string
@@ -19,7 +18,7 @@ const shortUrlSchema = new Schema<ShortUrlBaseDocument, ShortUrlModel>({
   short: {
     type: String,
     required: true,
-    default: shortId.generate,
+    unique: true,
   },
   clicks: {
     type: Number,
